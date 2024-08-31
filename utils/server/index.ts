@@ -90,19 +90,21 @@ export const OpenAIStream = async (
         if (event.type === 'event') {
           const data = event.data;
 
-          try {
-            const json = JSON.parse(data);
-            if (json.choices.length != 0 && json.choices[0].finish_reason != null) {
-              controller.close();
-              return;
+          if (data !== '[DONE]') {
+            try {
+              const json = JSON.parse(data);
+              if (json.choices.length != 0 && json.choices[0].finish_reason != null) {
+                controller.close();
+                return;
+              }
+              if (json.choices.length != 0) {
+                const text = json.choices[0].delta.content;
+                const queue = encoder.encode(text);
+                controller.enqueue(queue);
+              }
+            } catch (e) {
+              controller.error(e);
             }
-            if (json.choices.length != 0) {
-              const text = json.choices[0].delta.content;
-              const queue = encoder.encode(text);
-              controller.enqueue(queue);
-            }
-          } catch (e) {
-            controller.error(e);
           }
         }
       };
