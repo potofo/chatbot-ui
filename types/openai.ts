@@ -8,13 +8,12 @@ export interface OpenAIModel {
 }
 
 export enum OpenAIModelID {
-  GPT_4O_AZ = 'gpt-4o-2024-08-06',
+  GPT_4O_AZ = 'gpt-4o-2024-05-13',
   GPT_4O_MINI_AZ = 'gpt-4o-mini-2024-07-18',
-  DIFY = 'dify',
 }
 
 // in case the `DEFAULT_MODEL` environment variable is not set or set to an unsupported model
-export const fallbackModelID = OpenAIModelID.DIFY;
+export const fallbackModelID = OpenAIModelID.GPT_4O_MINI_AZ;
 
 export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
   [OpenAIModelID.GPT_4O_MINI_AZ]: {
@@ -26,12 +25,6 @@ export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
   [OpenAIModelID.GPT_4O_AZ]: {
     id: OpenAIModelID.GPT_4O_AZ,
     name: 'GPT-4o',
-    maxLength: 512000,
-    tokenLimit: 128000,
-  },
-  [OpenAIModelID.DIFY]: {
-    id: OpenAIModelID.DIFY,
-    name: 'dify',
     maxLength: 512000,
     tokenLimit: 128000,
   },
